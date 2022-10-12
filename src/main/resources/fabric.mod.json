@@ -19,7 +19,7 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.nathanpb.ktdatatag.example.ExampleModKt::init"
+        "value": "net.ersei.ktdatatag.example.ExampleModKt::init"
       }
     ]
   },
