@@ -8,17 +8,34 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.example.data
 
+import net.ersei.ktdatatag.example.TestEnum
+import net.ersei.ktdatatag.data.MutableCompoundData
+import net.ersei.ktdatatag.serializer.EnumSerializer
+import net.ersei.ktdatatag.serializer.Serializers
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.util.Identifier
+import java.util.*
 
-class EnumSerializer<T: Enum<T>>(private val clasz: Class<T>) : DataSerializer<T>{
+class ExampleItemData(tag: NbtCompound) : MutableCompoundData(tag) {
+    var counterInt by persistentDefaulted(10, Serializers.INT)
 
-    override fun write(tag: NbtCompound, key: String, data: T) {
-        tag.putString(key, data.name)
-    }
+    var counterDouble by persistentDefaulted(0.0, Serializers.DOUBLE)
 
-    override fun read(tag: NbtCompound, key: String): T {
-        return java.lang.Enum.valueOf(clasz, tag.getString(key)) as T
-    }
+    var string by persistentDefaulted("that dummy thing", Serializers.STRING)
+
+    var uuid by persistentDefaulted(UUID.randomUUID(), Serializers.UUID)
+
+    var boolean by persistentDefaulted(false, Serializers.BOOLEAN)
+
+    var nestedTag by persistentDefaulted(NbtCompound(), Serializers.COMPOUND_TAG)
+
+    var enum by persistentDefaulted(TestEnum.A, EnumSerializer(TestEnum::class.java))
+
+    var list by persistentDefaulted(emptyList(), Serializers.INT_LIST)
+
+    var id by persistentDefaulted(Identifier("weirdomod:weirdoitem"), Serializers.IDENTIFIER)
+
+    var nullable by persistent(Serializers.INT.nullable())
 }

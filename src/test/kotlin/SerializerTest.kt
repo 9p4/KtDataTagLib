@@ -1,7 +1,7 @@
 
 import org.junit.jupiter.api.Assertions.*
-import dev.nathanpb.ktdatatag.serializer.DataSerializer
-import dev.nathanpb.ktdatatag.serializer.Serializers
+import net.ersei.ktdatatag.serializer.DataSerializer
+import net.ersei.ktdatatag.serializer.Serializers
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos

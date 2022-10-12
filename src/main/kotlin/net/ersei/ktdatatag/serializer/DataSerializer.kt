@@ -8,17 +8,33 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package dev.nathanpb.ktdatatag.example
+package net.ersei.ktdatatag.serializer
 
-import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
-import org.slf4j.LoggerFactory
+import net.minecraft.nbt.NbtCompound
 
-@Suppress("unused")
-fun init() {
-    if(FabricLoader.getInstance().isDevelopmentEnvironment) {
-        Registry.register(Registry.ITEM, Identifier("ktdatataglib", "example_item"), ExampleItem())
-        LoggerFactory.getLogger("KtDataTagLib").info("Fabric development environment detected, registering KtDataTagLib's Example Item!")
+interface DataSerializer<T> {
+    fun has(tag: NbtCompound, key: String) = tag.contains(key)
+    fun write(tag: NbtCompound, key: String, data: T)
+    fun read(tag: NbtCompound, key: String): T
+
+    fun nullable() = Nullable(this)
+    fun isNullable() = false
+
+    class Nullable<T> internal constructor(private val wrapped: DataSerializer<T>) : DataSerializer<T?> {
+
+        override fun isNullable() = true
+
+        override fun write(tag: NbtCompound, key: String, data: T?) {
+            if (data == null) {
+                tag.remove(key)
+            } else wrapped.write(tag, key, data)
+        }
+
+        override fun read(tag: NbtCompound, key: String): T? {
+            return if (has(tag, key)) {
+                wrapped.read(tag, key)
+            } else null
+        }
+
     }
 }

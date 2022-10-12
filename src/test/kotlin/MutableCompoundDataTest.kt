@@ -1,6 +1,6 @@
 
-import dev.nathanpb.ktdatatag.data.MutableCompoundData
-import dev.nathanpb.ktdatatag.serializer.Serializers
+import net.ersei.ktdatatag.data.MutableCompoundData
+import net.ersei.ktdatatag.serializer.Serializers
 import net.minecraft.nbt.NbtCompound
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

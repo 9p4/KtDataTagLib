@@ -8,16 +8,17 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.example
 
-import net.minecraft.nbt.NbtCompound
+import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
+import org.slf4j.LoggerFactory
 
-class NbtCompoundSerializer : DataSerializer<NbtCompound> {
-    override fun write(tag: NbtCompound, key: String, data: NbtCompound) {
-        tag.put(key, data)
-    }
-
-    override fun read(tag: NbtCompound, key: String): NbtCompound {
-        return tag.getCompound(key)
+@Suppress("unused")
+fun init() {
+    if(FabricLoader.getInstance().isDevelopmentEnvironment) {
+        Registry.register(Registry.ITEM, Identifier("ktdatataglib", "example_item"), ExampleItem())
+        LoggerFactory.getLogger("KtDataTagLib").info("Fabric development environment detected, registering KtDataTagLib's Example Item!")
     }
 }

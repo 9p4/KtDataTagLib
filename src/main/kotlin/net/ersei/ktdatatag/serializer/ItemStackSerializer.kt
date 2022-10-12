@@ -1,4 +1,4 @@
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.serializer
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound

@@ -1,7 +1,7 @@
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.serializer
 
-import dev.nathanpb.ktdatatag.toBlockPos
-import dev.nathanpb.ktdatatag.toVec3i
+import net.ersei.ktdatatag.toBlockPos
+import net.ersei.ktdatatag.toVec3i
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtLong
 import net.minecraft.util.math.BlockPos

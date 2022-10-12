@@ -8,33 +8,17 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.serializer
 
 import net.minecraft.nbt.NbtCompound
 
-interface DataSerializer<T> {
-    fun has(tag: NbtCompound, key: String) = tag.contains(key)
-    fun write(tag: NbtCompound, key: String, data: T)
-    fun read(tag: NbtCompound, key: String): T
+class EnumSerializer<T: Enum<T>>(private val clasz: Class<T>) : DataSerializer<T>{
 
-    fun nullable() = Nullable(this)
-    fun isNullable() = false
+    override fun write(tag: NbtCompound, key: String, data: T) {
+        tag.putString(key, data.name)
+    }
 
-    class Nullable<T> internal constructor(private val wrapped: DataSerializer<T>) : DataSerializer<T?> {
-
-        override fun isNullable() = true
-
-        override fun write(tag: NbtCompound, key: String, data: T?) {
-            if (data == null) {
-                tag.remove(key)
-            } else wrapped.write(tag, key, data)
-        }
-
-        override fun read(tag: NbtCompound, key: String): T? {
-            return if (has(tag, key)) {
-                wrapped.read(tag, key)
-            } else null
-        }
-
+    override fun read(tag: NbtCompound, key: String): T {
+        return java.lang.Enum.valueOf(clasz, tag.getString(key)) as T
     }
 }

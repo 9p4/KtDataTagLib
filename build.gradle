@@ -14,14 +14,6 @@ group = project.maven_group
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
-    maven {
-      name = "GitHubPackages"
-      url = "https://maven.pkg.github.com/9p4/KtDataTagLib"
-      credentials {
-        username = System.getenv("GITHUB_ACTOR")
-        password = System.getenv("GITHUB_TOKEN")
-      }
-    }
 }
 
 dependencies {
@@ -62,7 +54,8 @@ jar {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-
+			artifactId 'ktdatataglib'
+			groupId 'net.ersei'
             artifact(remapJar) {
                 builtBy remapJar
             }
@@ -73,6 +66,14 @@ publishing {
     }
 
     repositories {
+		maven {
+		  name = "GitHubPackages"
+		  url = "https://maven.pkg.github.com/9p4/KtDataTagLib"
+		  credentials {
+			username = System.getenv("GITHUB_ACTOR")
+			password = System.getenv("GITHUB_TOKEN")
+		  }
+		}
     }
 }
 

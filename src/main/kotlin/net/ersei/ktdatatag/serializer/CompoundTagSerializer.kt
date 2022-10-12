@@ -8,12 +8,16 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package dev.nathanpb.ktdatatag.serializer
+package net.ersei.ktdatatag.serializer
 
 import net.minecraft.nbt.NbtCompound
-import java.util.*
 
-class UUIDSerializer : AbstractFunctionalDataSerializer<UUID>(
-    NbtCompound::getUuid,
-    NbtCompound::putUuid
-)
+class NbtCompoundSerializer : DataSerializer<NbtCompound> {
+    override fun write(tag: NbtCompound, key: String, data: NbtCompound) {
+        tag.put(key, data)
+    }
+
+    override fun read(tag: NbtCompound, key: String): NbtCompound {
+        return tag.getCompound(key)
+    }
+}

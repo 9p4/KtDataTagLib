@@ -1,4 +1,4 @@
-package dev.nathanpb.ktdatatag
+package net.ersei.ktdatatag
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
